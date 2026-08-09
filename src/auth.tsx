@@ -8,11 +8,16 @@ import {
 } from 'react';
 import { api, getToken, setToken } from './api';
 
+type SignupResult =
+  | { requiresVerification: true; email: string }
+  | { requiresVerification: false; email: string };
+
 type AuthState = {
   email: string | null;
   ready: boolean;
   login: (email: string, password: string) => Promise<void>;
-  signup: (email: string, password: string) => Promise<void>;
+  signup: (email: string, password: string) => Promise<SignupResult>;
+  completeLogin: (accessToken: string, email: string) => void;
   logout: () => void;
 };
 
@@ -23,19 +28,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     getToken() ? localStorage.getItem('mrp_email') : null,
   );
 
-  const login = useCallback(async (userEmail: string, password: string) => {
-    const res = await api.login(userEmail, password);
-    setToken(res.accessToken);
-    localStorage.setItem('mrp_email', res.user.email);
-    setEmail(res.user.email);
+  const completeLogin = useCallback((accessToken: string, userEmail: string) => {
+    setToken(accessToken);
+    localStorage.setItem('mrp_email', userEmail);
+    setEmail(userEmail);
   }, []);
 
-  const signup = useCallback(async (userEmail: string, password: string) => {
-    const res = await api.signup(userEmail, password);
-    setToken(res.accessToken);
-    localStorage.setItem('mrp_email', res.user.email);
-    setEmail(res.user.email);
-  }, []);
+  const login = useCallback(
+    async (userEmail: string, password: string) => {
+      const res = await api.login(userEmail, password);
+      completeLogin(res.accessToken, res.user.email);
+    },
+    [completeLogin],
+  );
+
+  const signup = useCallback(
+    async (userEmail: string, password: string): Promise<SignupResult> => {
+      const res = await api.signup(userEmail, password);
+      if (res.accessToken && res.user) {
+        completeLogin(res.accessToken, res.user.email);
+        return { requiresVerification: false, email: res.user.email };
+      }
+      return {
+        requiresVerification: true,
+        email: res.email ?? userEmail,
+      };
+    },
+    [completeLogin],
+  );
 
   const logout = useCallback(() => {
     setToken(null);
@@ -44,8 +64,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo(
-    () => ({ email, ready: true, login, signup, logout }),
-    [email, login, signup, logout],
+    () => ({ email, ready: true, login, signup, completeLogin, logout }),
+    [email, login, signup, completeLogin, logout],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

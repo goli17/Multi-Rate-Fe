@@ -1,0 +1,958 @@
+{
+  "passed": 136,
+  "total": 136,
+  "results": [
+    {
+      "viewport": "iPhone SE",
+      "page": "Login",
+      "check": "Sign in form visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone SE",
+      "page": "Login",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "375px"
+    },
+    {
+      "viewport": "iPhone SE",
+      "page": "Login",
+      "check": "Auth card fits viewport",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone SE",
+      "page": "Signup",
+      "check": "Create account form visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone SE",
+      "page": "Signup",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "375px"
+    },
+    {
+      "viewport": "iPhone SE",
+      "page": "Documents",
+      "check": "Heading visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone SE",
+      "page": "Documents",
+      "check": "New document CTA visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone SE",
+      "page": "Documents",
+      "check": "Nav links visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone SE",
+      "page": "Documents",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "375px"
+    },
+    {
+      "viewport": "iPhone SE",
+      "page": "Create draft",
+      "check": "Placeholder title field empty",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone SE",
+      "page": "Create draft",
+      "check": "Currency placeholder option present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone SE",
+      "page": "Create draft",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "375px"
+    },
+    {
+      "viewport": "iPhone SE",
+      "page": "Document detail",
+      "check": "Draft banner visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone SE",
+      "page": "Document detail",
+      "check": "Keep as draft / Delete / Finalize actions present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone SE",
+      "page": "Document detail",
+      "check": "Line placeholders present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone SE",
+      "page": "Document detail",
+      "check": "Totals use selected currency (not US$)",
+      "pass": true,
+      "detail": "₹210.00"
+    },
+    {
+      "viewport": "iPhone SE",
+      "page": "Document detail",
+      "check": "Line items render as cards on small screens",
+      "pass": true,
+      "detail": "rows=1"
+    },
+    {
+      "viewport": "iPhone SE",
+      "page": "Document detail",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "375px"
+    },
+    {
+      "viewport": "iPhone SE",
+      "page": "Reports",
+      "check": "Date + currency filters visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone SE",
+      "page": "Reports",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "375px"
+    },
+    {
+      "viewport": "iPhone 14",
+      "page": "Login",
+      "check": "Sign in form visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone 14",
+      "page": "Login",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "390px"
+    },
+    {
+      "viewport": "iPhone 14",
+      "page": "Login",
+      "check": "Auth card fits viewport",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone 14",
+      "page": "Signup",
+      "check": "Create account form visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone 14",
+      "page": "Signup",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "390px"
+    },
+    {
+      "viewport": "iPhone 14",
+      "page": "Documents",
+      "check": "Heading visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone 14",
+      "page": "Documents",
+      "check": "New document CTA visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone 14",
+      "page": "Documents",
+      "check": "Nav links visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone 14",
+      "page": "Documents",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "390px"
+    },
+    {
+      "viewport": "iPhone 14",
+      "page": "Create draft",
+      "check": "Placeholder title field empty",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone 14",
+      "page": "Create draft",
+      "check": "Currency placeholder option present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone 14",
+      "page": "Create draft",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "390px"
+    },
+    {
+      "viewport": "iPhone 14",
+      "page": "Document detail",
+      "check": "Draft banner visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone 14",
+      "page": "Document detail",
+      "check": "Keep as draft / Delete / Finalize actions present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone 14",
+      "page": "Document detail",
+      "check": "Line placeholders present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone 14",
+      "page": "Document detail",
+      "check": "Totals use selected currency (not US$)",
+      "pass": true,
+      "detail": "₹210.00"
+    },
+    {
+      "viewport": "iPhone 14",
+      "page": "Document detail",
+      "check": "Line items render as cards on small screens",
+      "pass": true,
+      "detail": "rows=1"
+    },
+    {
+      "viewport": "iPhone 14",
+      "page": "Document detail",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "390px"
+    },
+    {
+      "viewport": "iPhone 14",
+      "page": "Reports",
+      "check": "Date + currency filters visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPhone 14",
+      "page": "Reports",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "390px"
+    },
+    {
+      "viewport": "Pixel 7",
+      "page": "Login",
+      "check": "Sign in form visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Pixel 7",
+      "page": "Login",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "412px"
+    },
+    {
+      "viewport": "Pixel 7",
+      "page": "Login",
+      "check": "Auth card fits viewport",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Pixel 7",
+      "page": "Signup",
+      "check": "Create account form visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Pixel 7",
+      "page": "Signup",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "412px"
+    },
+    {
+      "viewport": "Pixel 7",
+      "page": "Documents",
+      "check": "Heading visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Pixel 7",
+      "page": "Documents",
+      "check": "New document CTA visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Pixel 7",
+      "page": "Documents",
+      "check": "Nav links visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Pixel 7",
+      "page": "Documents",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "412px"
+    },
+    {
+      "viewport": "Pixel 7",
+      "page": "Create draft",
+      "check": "Placeholder title field empty",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Pixel 7",
+      "page": "Create draft",
+      "check": "Currency placeholder option present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Pixel 7",
+      "page": "Create draft",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "412px"
+    },
+    {
+      "viewport": "Pixel 7",
+      "page": "Document detail",
+      "check": "Draft banner visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Pixel 7",
+      "page": "Document detail",
+      "check": "Keep as draft / Delete / Finalize actions present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Pixel 7",
+      "page": "Document detail",
+      "check": "Line placeholders present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Pixel 7",
+      "page": "Document detail",
+      "check": "Totals use selected currency (not US$)",
+      "pass": true,
+      "detail": "₹210.00"
+    },
+    {
+      "viewport": "Pixel 7",
+      "page": "Document detail",
+      "check": "Line items render as cards on small screens",
+      "pass": true,
+      "detail": "rows=1"
+    },
+    {
+      "viewport": "Pixel 7",
+      "page": "Document detail",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "412px"
+    },
+    {
+      "viewport": "Pixel 7",
+      "page": "Reports",
+      "check": "Date + currency filters visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Pixel 7",
+      "page": "Reports",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "412px"
+    },
+    {
+      "viewport": "iPad Mini",
+      "page": "Login",
+      "check": "Sign in form visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Mini",
+      "page": "Login",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "768px"
+    },
+    {
+      "viewport": "iPad Mini",
+      "page": "Login",
+      "check": "Auth card fits viewport",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Mini",
+      "page": "Signup",
+      "check": "Create account form visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Mini",
+      "page": "Signup",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "768px"
+    },
+    {
+      "viewport": "iPad Mini",
+      "page": "Documents",
+      "check": "Heading visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Mini",
+      "page": "Documents",
+      "check": "New document CTA visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Mini",
+      "page": "Documents",
+      "check": "Nav links visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Mini",
+      "page": "Documents",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "768px"
+    },
+    {
+      "viewport": "iPad Mini",
+      "page": "Create draft",
+      "check": "Placeholder title field empty",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Mini",
+      "page": "Create draft",
+      "check": "Currency placeholder option present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Mini",
+      "page": "Create draft",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "768px"
+    },
+    {
+      "viewport": "iPad Mini",
+      "page": "Document detail",
+      "check": "Draft banner visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Mini",
+      "page": "Document detail",
+      "check": "Keep as draft / Delete / Finalize actions present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Mini",
+      "page": "Document detail",
+      "check": "Line placeholders present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Mini",
+      "page": "Document detail",
+      "check": "Totals use selected currency (not US$)",
+      "pass": true,
+      "detail": "₹210.00"
+    },
+    {
+      "viewport": "iPad Mini",
+      "page": "Document detail",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "768px"
+    },
+    {
+      "viewport": "iPad Mini",
+      "page": "Reports",
+      "check": "Date + currency filters visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Mini",
+      "page": "Reports",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "768px"
+    },
+    {
+      "viewport": "iPad Pro",
+      "page": "Login",
+      "check": "Sign in form visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Pro",
+      "page": "Login",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "1024px"
+    },
+    {
+      "viewport": "iPad Pro",
+      "page": "Login",
+      "check": "Auth card fits viewport",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Pro",
+      "page": "Signup",
+      "check": "Create account form visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Pro",
+      "page": "Signup",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "1024px"
+    },
+    {
+      "viewport": "iPad Pro",
+      "page": "Documents",
+      "check": "Heading visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Pro",
+      "page": "Documents",
+      "check": "New document CTA visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Pro",
+      "page": "Documents",
+      "check": "Nav links visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Pro",
+      "page": "Documents",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "1024px"
+    },
+    {
+      "viewport": "iPad Pro",
+      "page": "Create draft",
+      "check": "Placeholder title field empty",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Pro",
+      "page": "Create draft",
+      "check": "Currency placeholder option present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Pro",
+      "page": "Create draft",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "1024px"
+    },
+    {
+      "viewport": "iPad Pro",
+      "page": "Document detail",
+      "check": "Draft banner visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Pro",
+      "page": "Document detail",
+      "check": "Keep as draft / Delete / Finalize actions present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Pro",
+      "page": "Document detail",
+      "check": "Line placeholders present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Pro",
+      "page": "Document detail",
+      "check": "Totals use selected currency (not US$)",
+      "pass": true,
+      "detail": "₹210.00"
+    },
+    {
+      "viewport": "iPad Pro",
+      "page": "Document detail",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "1024px"
+    },
+    {
+      "viewport": "iPad Pro",
+      "page": "Reports",
+      "check": "Date + currency filters visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "iPad Pro",
+      "page": "Reports",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "1024px"
+    },
+    {
+      "viewport": "Laptop",
+      "page": "Login",
+      "check": "Sign in form visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Laptop",
+      "page": "Login",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "1280px"
+    },
+    {
+      "viewport": "Laptop",
+      "page": "Login",
+      "check": "Auth card fits viewport",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Laptop",
+      "page": "Signup",
+      "check": "Create account form visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Laptop",
+      "page": "Signup",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "1280px"
+    },
+    {
+      "viewport": "Laptop",
+      "page": "Documents",
+      "check": "Heading visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Laptop",
+      "page": "Documents",
+      "check": "New document CTA visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Laptop",
+      "page": "Documents",
+      "check": "Nav links visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Laptop",
+      "page": "Documents",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "1280px"
+    },
+    {
+      "viewport": "Laptop",
+      "page": "Create draft",
+      "check": "Placeholder title field empty",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Laptop",
+      "page": "Create draft",
+      "check": "Currency placeholder option present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Laptop",
+      "page": "Create draft",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "1280px"
+    },
+    {
+      "viewport": "Laptop",
+      "page": "Document detail",
+      "check": "Draft banner visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Laptop",
+      "page": "Document detail",
+      "check": "Keep as draft / Delete / Finalize actions present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Laptop",
+      "page": "Document detail",
+      "check": "Line placeholders present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Laptop",
+      "page": "Document detail",
+      "check": "Totals use selected currency (not US$)",
+      "pass": true,
+      "detail": "₹210.00"
+    },
+    {
+      "viewport": "Laptop",
+      "page": "Document detail",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "1280px"
+    },
+    {
+      "viewport": "Laptop",
+      "page": "Reports",
+      "check": "Date + currency filters visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Laptop",
+      "page": "Reports",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "1280px"
+    },
+    {
+      "viewport": "Desktop",
+      "page": "Login",
+      "check": "Sign in form visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Desktop",
+      "page": "Login",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "1440px"
+    },
+    {
+      "viewport": "Desktop",
+      "page": "Login",
+      "check": "Auth card fits viewport",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Desktop",
+      "page": "Signup",
+      "check": "Create account form visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Desktop",
+      "page": "Signup",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "1440px"
+    },
+    {
+      "viewport": "Desktop",
+      "page": "Documents",
+      "check": "Heading visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Desktop",
+      "page": "Documents",
+      "check": "New document CTA visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Desktop",
+      "page": "Documents",
+      "check": "Nav links visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Desktop",
+      "page": "Documents",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "1440px"
+    },
+    {
+      "viewport": "Desktop",
+      "page": "Create draft",
+      "check": "Placeholder title field empty",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Desktop",
+      "page": "Create draft",
+      "check": "Currency placeholder option present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Desktop",
+      "page": "Create draft",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "1440px"
+    },
+    {
+      "viewport": "Desktop",
+      "page": "Document detail",
+      "check": "Draft banner visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Desktop",
+      "page": "Document detail",
+      "check": "Keep as draft / Delete / Finalize actions present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Desktop",
+      "page": "Document detail",
+      "check": "Line placeholders present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Desktop",
+      "page": "Document detail",
+      "check": "Totals use selected currency (not US$)",
+      "pass": true,
+      "detail": "₹210.00"
+    },
+    {
+      "viewport": "Desktop",
+      "page": "Document detail",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "1440px"
+    },
+    {
+      "viewport": "Desktop",
+      "page": "Reports",
+      "check": "Date + currency filters visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "viewport": "Desktop",
+      "page": "Reports",
+      "check": "No horizontal page overflow",
+      "pass": true,
+      "detail": "1440px"
+    }
+  ]
+}

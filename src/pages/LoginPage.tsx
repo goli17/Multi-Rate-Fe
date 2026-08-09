@@ -2,6 +2,7 @@ import { FormEvent, useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { ApiError } from '../api';
 import { useAuth } from '../auth';
+import { PasswordField } from '../components/PasswordField';
 
 export function LoginPage() {
   const { email, login } = useAuth();
@@ -16,11 +17,16 @@ export function LoginPage() {
     setError('');
     setLoading(true);
     const form = new FormData(e.currentTarget);
+    const userEmail = String(form.get('email'));
     try {
-      await login(String(form.get('email')), String(form.get('password')));
+      await login(userEmail, String(form.get('password')));
       navigate('/');
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Login failed');
+      const message = err instanceof ApiError ? err.message : 'Login failed';
+      setError(message);
+      if (message.toLowerCase().includes('not verified')) {
+        navigate(`/verify-otp?email=${encodeURIComponent(userEmail)}`);
+      }
     } finally {
       setLoading(false);
     }
@@ -42,19 +48,14 @@ export function LoginPage() {
             type="email"
             required
             autoComplete="email"
+            disabled={loading}
           />
         </label>
-        <label htmlFor="login-password">
-          Password
-          <input
-            id="login-password"
-            name="password"
-            type="password"
-            required
-            minLength={8}
-            autoComplete="current-password"
-          />
-        </label>
+        <PasswordField
+          id="login-password"
+          autoComplete="current-password"
+          disabled={loading}
+        />
         <button type="submit" disabled={loading}>
           {loading ? 'Signing in…' : 'Sign in'}
         </button>

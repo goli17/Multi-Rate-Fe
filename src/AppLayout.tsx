@@ -8,13 +8,17 @@ export function AppLayout() {
   return (
     <div className="app-shell">
       <header className="topbar">
-        <div className="brand">Multi-Rate</div>
-        <nav className="nav">
+        <div className="brand">
+          <NavLink to="/">Multi-Rate</NavLink>
+        </div>
+        <nav className="nav" aria-label="Main">
           <NavLink to="/" end>
             Documents
           </NavLink>
           <NavLink to="/reports">Reports</NavLink>
-          <span className="muted">{email}</span>
+          <span className="muted nav-email" title={email ?? undefined}>
+            {email}
+          </span>
           <button type="button" className="secondary" onClick={logout}>
             Log out
           </button>

@@ -21,6 +21,7 @@ export interface Document {
   title: string;
   customer: string;
   issueDate: string;
+  currency: string;
   status: DocumentStatus;
   subtotal: number;
   totalDiscount: number;
@@ -36,6 +37,7 @@ export interface DocumentSummary {
   title: string;
   customer: string;
   issueDate: string;
+  currency: string;
   status: DocumentStatus;
   subtotal: number;
   totalDiscount: number;
@@ -56,6 +58,7 @@ export interface LineInput {
 export interface SummaryReport {
   from: string;
   to: string;
+  currency: string;
   documentCount: number;
   sumGrandTotals: number;
   sumTotalTax: number;

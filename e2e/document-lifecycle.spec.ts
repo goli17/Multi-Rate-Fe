@@ -9,6 +9,9 @@ test('signup, sample document, finalize, report', async ({ page }) => {
   await page.locator('#signup-email').fill(email);
   await page.locator('#signup-password').fill(password);
   await page.getByRole('button', { name: 'Create account' }).click();
+  await expect(page.getByRole('button', { name: 'Verify email' })).toBeVisible();
+  await page.locator('#otp-code').fill('123456');
+  await page.getByRole('button', { name: 'Verify email' }).click();
   await expect(page.getByRole('heading', { name: 'Documents' })).toBeVisible();
 
   await page.getByRole('button', { name: 'New document' }).click();

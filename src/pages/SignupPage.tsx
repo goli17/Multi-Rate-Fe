@@ -2,6 +2,7 @@ import { FormEvent, useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { ApiError } from '../api';
 import { useAuth } from '../auth';
+import { PasswordField } from '../components/PasswordField';
 
 export function SignupPage() {
   const { email, signup } = useAuth();
@@ -17,8 +18,15 @@ export function SignupPage() {
     setLoading(true);
     const form = new FormData(e.currentTarget);
     try {
-      await signup(String(form.get('email')), String(form.get('password')));
-      navigate('/');
+      const res = await signup(
+        String(form.get('email')),
+        String(form.get('password')),
+      );
+      if (res.requiresVerification) {
+        navigate(`/verify-otp?email=${encodeURIComponent(res.email)}`);
+      } else {
+        navigate('/');
+      }
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'Signup failed');
     } finally {
@@ -42,19 +50,14 @@ export function SignupPage() {
             type="email"
             required
             autoComplete="email"
+            disabled={loading}
           />
         </label>
-        <label htmlFor="signup-password">
-          Password
-          <input
-            id="signup-password"
-            name="password"
-            type="password"
-            required
-            minLength={8}
-            autoComplete="new-password"
-          />
-        </label>
+        <PasswordField
+          id="signup-password"
+          autoComplete="new-password"
+          disabled={loading}
+        />
         <button type="submit" disabled={loading}>
           {loading ? 'Creating…' : 'Create account'}
         </button>

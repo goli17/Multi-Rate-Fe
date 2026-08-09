@@ -25,7 +25,9 @@ async function request<T>(
   options: RequestInit = {},
 ): Promise<T> {
   const headers = new Headers(options.headers);
-  headers.set('Content-Type', 'application/json');
+  if (options.body !== undefined && options.body !== null) {
+    headers.set('Content-Type', 'application/json');
+  }
   const token = getToken();
   if (token) headers.set('Authorization', `Bearer ${token}`);
 
@@ -43,9 +45,25 @@ async function request<T>(
 
 export const api = {
   signup: (email: string, password: string) =>
+    request<{
+      requiresVerification?: boolean;
+      email?: string;
+      message?: string;
+      accessToken?: string;
+      user?: { id: string; email: string };
+    }>('/auth/signup', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+    }),
+  verifyOtp: (email: string, code: string) =>
     request<{ accessToken: string; user: { id: string; email: string } }>(
-      '/auth/signup',
-      { method: 'POST', body: JSON.stringify({ email, password }) },
+      '/auth/verify-otp',
+      { method: 'POST', body: JSON.stringify({ email, code }) },
+    ),
+  resendOtp: (email: string) =>
+    request<{ requiresVerification: boolean; email: string; message: string }>(
+      '/auth/resend-otp',
+      { method: 'POST', body: JSON.stringify({ email }) },
     ),
   login: (email: string, password: string) =>
     request<{ accessToken: string; user: { id: string; email: string } }>(
@@ -85,8 +103,8 @@ export const api = {
     request<import('./types').Document>(`/documents/${id}/lines/${lineId}`, {
       method: 'DELETE',
     }),
-  summary: (from: string, to: string) =>
+  summary: (from: string, to: string, currency: string) =>
     request<import('./types').SummaryReport>(
-      `/reports/summary?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`,
+      `/reports/summary?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}&currency=${encodeURIComponent(currency)}`,
     ),
 };

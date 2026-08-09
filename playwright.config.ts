@@ -13,11 +13,13 @@ export default defineConfig({
       command: 'npm run start:dev',
       cwd: '../Multi-Rate-BE',
       url: 'http://localhost:3000/api/v1/health',
-      reuseExistingServer: true,
+      reuseExistingServer: false,
       timeout: 120_000,
       env: {
         ...process.env,
         CORS_ORIGIN: 'http://localhost:5174',
+        OTP_FIXED_CODE: '123456',
+        OTP_SKIP_SEND: 'true',
       },
     },
     {
