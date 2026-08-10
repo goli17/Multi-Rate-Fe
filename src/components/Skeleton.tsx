@@ -20,7 +20,7 @@ export function Skeleton({
   );
 }
 
-export function DocumentsListSkeleton({ rows = 5 }: { rows?: number }) {
+export function DocumentsListSkeleton({ rows = 4 }: { rows?: number }) {
   return (
     <div className="stack" aria-busy="true" aria-label="Loading documents">
       <div className="page-header">
@@ -30,21 +30,21 @@ export function DocumentsListSkeleton({ rows = 5 }: { rows?: number }) {
         </div>
         <Skeleton width={140} height="2.5rem" rounded="pill" />
       </div>
-      <div className="skeleton-table">
-        <div className="skeleton-table-head">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Skeleton key={i} height="0.75rem" width={`${60 + (i % 3) * 10}%`} />
-          ))}
-        </div>
+      <div className="docs-list">
         {Array.from({ length: rows }).map((_, row) => (
-          <div className="skeleton-table-row" key={row}>
-            {Array.from({ length: 5 }).map((_, col) => (
-              <Skeleton
-                key={col}
-                height="0.95rem"
-                width={col === 0 ? '70%' : `${50 + ((row + col) % 4) * 10}%`}
-              />
-            ))}
+          <div className="docs-card" key={row}>
+            <div className="docs-card-main">
+              <Skeleton width="55%" height="1.1rem" />
+              <div className="docs-card-meta">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className="stack" style={{ gap: '0.3rem' }}>
+                    <Skeleton width="40%" height="0.65rem" />
+                    <Skeleton width="70%" height="0.9rem" />
+                  </div>
+                ))}
+              </div>
+            </div>
+            <Skeleton width={36} height={36} rounded="md" />
           </div>
         ))}
       </div>
@@ -107,16 +107,38 @@ export function DocumentDetailSkeleton() {
 export function ReportTotalsSkeleton() {
   return (
     <div
-      className="totals"
+      className="report-sheet stack"
       aria-busy="true"
-      aria-label="Loading report totals"
+      aria-label="Loading report"
     >
-      {Array.from({ length: 4 }).map((_, i) => (
-        <div key={i} className="totals-skeleton-card">
-          <Skeleton width="45%" height="0.75rem" />
-          <Skeleton width="65%" height="1.35rem" />
+      <div className="report-sheet-header">
+        <div className="stack" style={{ gap: '0.4rem' }}>
+          <Skeleton width={100} height="0.7rem" />
+          <Skeleton width={180} height="1.4rem" />
         </div>
-      ))}
+        <div className="report-meta">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="stack" style={{ gap: '0.35rem' }}>
+              <Skeleton width={70} height="0.65rem" />
+              <Skeleton width={110} height="0.95rem" />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="stack" style={{ gap: '0.65rem' }}>
+        <Skeleton height="2rem" width="100%" />
+        {Array.from({ length: 4 }).map((_, i) => (
+          <Skeleton key={i} height="2.4rem" width="100%" />
+        ))}
+      </div>
+      <div className="report-summary-strip">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="totals-skeleton-card">
+            <Skeleton width="45%" height="0.75rem" />
+            <Skeleton width="65%" height="1.2rem" />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

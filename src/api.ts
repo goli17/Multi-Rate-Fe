@@ -2,6 +2,9 @@ const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api/v1';
 
 const TOKEN_KEY = 'mrp_token';
 
+/** Collapse concurrent identical GET requests into one network call (e.g. React StrictMode). */
+const inflightGets = new Map<string, Promise<unknown>>();
+
 export function getToken(): string | null {
   return localStorage.getItem(TOKEN_KEY);
 }
@@ -20,7 +23,7 @@ export class ApiError extends Error {
   }
 }
 
-async function request<T>(
+async function requestOnce<T>(
   path: string,
   options: RequestInit = {},
 ): Promise<T> {
@@ -41,6 +44,32 @@ async function request<T>(
     throw new ApiError(res.status, message);
   }
   return data as T;
+}
+
+async function request<T>(
+  path: string,
+  options: RequestInit = {},
+): Promise<T> {
+  const method = (options.method ?? 'GET').toUpperCase();
+  const canDedupe =
+    method === 'GET' &&
+    options.body === undefined &&
+    options.signal === undefined;
+
+  if (!canDedupe) {
+    return requestOnce<T>(path, options);
+  }
+
+  const existing = inflightGets.get(path);
+  if (existing) {
+    return existing as Promise<T>;
+  }
+
+  const pending = requestOnce<T>(path, options).finally(() => {
+    inflightGets.delete(path);
+  });
+  inflightGets.set(path, pending);
+  return pending;
 }
 
 export const api = {
@@ -94,6 +123,11 @@ export const api = {
       method: 'POST',
       body: JSON.stringify(body),
     }),
+  addLines: (id: string, lines: unknown[]) =>
+    request<import('./types').Document>(`/documents/${id}/lines/bulk`, {
+      method: 'POST',
+      body: JSON.stringify({ lines }),
+    }),
   updateLine: (id: string, lineId: string, body: unknown) =>
     request<import('./types').Document>(`/documents/${id}/lines/${lineId}`, {
       method: 'PATCH',
@@ -103,8 +137,13 @@ export const api = {
     request<import('./types').Document>(`/documents/${id}/lines/${lineId}`, {
       method: 'DELETE',
     }),
-  summary: (from: string, to: string, currency: string) =>
-    request<import('./types').SummaryReport>(
-      `/reports/summary?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}&currency=${encodeURIComponent(currency)}`,
-    ),
+  summary: (from: string, to: string, currencies: string[] = []) => {
+    const params = new URLSearchParams({ from, to });
+    if (currencies.length) {
+      params.set('currencies', currencies.join(','));
+    }
+    return request<import('./types').SummaryReport>(
+      `/reports/summary?${params.toString()}`,
+    );
+  },
 };

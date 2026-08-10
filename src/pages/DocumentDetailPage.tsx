@@ -1,9 +1,15 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
-import { Trash2 } from 'lucide-react';
+import { FileSpreadsheet, Trash2, Upload } from 'lucide-react';
 import { Link, useBlocker, useNavigate, useParams } from 'react-router-dom';
 import { api, ApiError } from '../api';
 import { LeaveDraftDialog } from '../components/LeaveDraftDialog';
 import { DocumentDetailSkeleton } from '../components/Skeleton';
+import {
+  downloadLineItemsTemplate,
+  LINE_ITEM_COLUMN_HELP,
+  LINE_ITEM_TEMPLATE_SAMPLES,
+  parseLineItemsExcel,
+} from '../lib/lineItemsExcel';
 import { CURRENCIES, DEFAULT_CURRENCY, formatMoney } from '../lib/money';
 import type { DiscountType, Document } from '../types';
 
@@ -127,7 +133,10 @@ export function DocumentDetailPage() {
   });
   const [lineForm, setLineForm] = useState(emptyLine());
   const [busy, setBusy] = useState(false);
+  const [importBusy, setImportBusy] = useState(false);
+  const [importMessage, setImportMessage] = useState('');
   const allowLeaveRef = useRef(false);
+  const importInputRef = useRef<HTMLInputElement>(null);
 
   const needsLeaveDecision =
     !!doc && doc.status === 'draft' && doc.lineItems.length === 0;
@@ -148,28 +157,32 @@ export function DocumentDetailPage() {
     return () => window.removeEventListener('beforeunload', onBeforeUnload);
   }, [needsLeaveDecision]);
 
-  async function load() {
-    setLoading(true);
-    setError('');
-    try {
-      const data = await api.getDocument(id);
-      setDoc(data);
-      setMeta({
-        title: displayOrEmpty(data.title, PLACEHOLDER_TITLES),
-        customer: displayOrEmpty(data.customer, PLACEHOLDER_CUSTOMERS),
-        issueDate: data.issueDate || '',
-        currency: data.currency || '',
-      });
-    } catch (err) {
-      setDoc(null);
-      setError(err instanceof ApiError ? err.message : 'Failed to load');
-    } finally {
-      setLoading(false);
-    }
-  }
-
   useEffect(() => {
-    void load();
+    let cancelled = false;
+    (async () => {
+      setLoading(true);
+      setError('');
+      try {
+        const data = await api.getDocument(id);
+        if (cancelled) return;
+        setDoc(data);
+        setMeta({
+          title: displayOrEmpty(data.title, PLACEHOLDER_TITLES),
+          customer: displayOrEmpty(data.customer, PLACEHOLDER_CUSTOMERS),
+          issueDate: data.issueDate || '',
+          currency: data.currency || '',
+        });
+      } catch (err) {
+        if (cancelled) return;
+        setDoc(null);
+        setError(err instanceof ApiError ? err.message : 'Failed to load');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, [id]);
 
   const readOnly = doc?.status === 'finalized';
@@ -270,6 +283,38 @@ export function DocumentDetailPage() {
     }
   }
 
+  async function importLinesFromExcel(file: File) {
+    if (!doc || readOnly) return;
+    setImportBusy(true);
+    setImportMessage('');
+    setError('');
+    try {
+      const { lines, errors } = await parseLineItemsExcel(file);
+      if (errors.length) {
+        setError(errors.slice(0, 8).join(' · '));
+        if (!lines.length) return;
+      }
+      if (!lines.length) {
+        setError('No valid line items found in the file.');
+        return;
+      }
+      const updated = await api.addLines(doc.id, lines);
+      setDoc(updated);
+      setImportMessage(
+        `Imported ${lines.length} line item${lines.length === 1 ? '' : 's'} from Excel.`,
+      );
+    } catch (err) {
+      setError(
+        err instanceof ApiError || err instanceof Error
+          ? err.message
+          : 'Excel import failed',
+      );
+    } finally {
+      setImportBusy(false);
+      if (importInputRef.current) importInputRef.current.value = '';
+    }
+  }
+
   async function removeLine(lineId: string) {
     if (!doc || readOnly) return;
     setBusy(true);
@@ -350,7 +395,7 @@ export function DocumentDetailPage() {
   }
 
   return (
-    <div className={`stack ${busy ? 'panel-busy' : ''}`.trim()}>
+    <div className={`stack ${busy || importBusy ? 'panel-busy' : ''}`.trim()}>
       <LeaveDraftDialog
         open={blocker.state === 'blocked'}
         busy={busy}
@@ -425,7 +470,7 @@ export function DocumentDetailPage() {
         </div>
         {error ? <div className="error">{error}</div> : null}
         <form className="stack" onSubmit={(e) => void saveMeta(e)}>
-          <div className="row">
+          <div className="form-grid">
             <label>
               Title
               <input
@@ -498,6 +543,89 @@ export function DocumentDetailPage() {
         <div className="section-header">
           <h2>Line items</h2>
         </div>
+
+        {!readOnly ? (
+          <div className="import-panel stack">
+            <div>
+              <h3>Import from Excel</h3>
+              <p className="muted">
+                Create the document details first, then upload a spreadsheet of
+                line items only. Download the template so columns match.
+              </p>
+            </div>
+
+            <div className="table-wrap">
+              <table className="table template-guide">
+                <thead>
+                  <tr>
+                    {LINE_ITEM_COLUMN_HELP.map((col) => (
+                      <th key={col.key}>
+                        {col.key}
+                        {col.required ? (
+                          <span className="required-mark">*</span>
+                        ) : null}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {LINE_ITEM_TEMPLATE_SAMPLES.map((sample) => (
+                    <tr key={String(sample.description)}>
+                      {LINE_ITEM_COLUMN_HELP.map((col) => (
+                        <td key={col.key}>
+                          {sample[col.key] === '' ? '—' : sample[col.key]}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <ul className="template-notes muted">
+              {LINE_ITEM_COLUMN_HELP.map((col) => (
+                <li key={col.key}>
+                  <code>{col.key}</code>
+                  {col.required ? ' (required)' : ''}: {col.notes}
+                </li>
+              ))}
+            </ul>
+
+            <div className="page-actions">
+              <button
+                type="button"
+                className="secondary"
+                disabled={busy || importBusy}
+                onClick={() => downloadLineItemsTemplate()}
+              >
+                <FileSpreadsheet size={16} strokeWidth={2} aria-hidden />
+                Download Excel template
+              </button>
+              <button
+                type="button"
+                disabled={busy || importBusy}
+                onClick={() => importInputRef.current?.click()}
+              >
+                <Upload size={16} strokeWidth={2} aria-hidden />
+                {importBusy ? 'Importing…' : 'Upload Excel'}
+              </button>
+              <input
+                ref={importInputRef}
+                type="file"
+                accept=".xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                hidden
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) void importLinesFromExcel(file);
+                }}
+              />
+            </div>
+            {importMessage ? (
+              <p className="import-success">{importMessage}</p>
+            ) : null}
+          </div>
+        ) : null}
+
         <div className="table-wrap">
           <table className="table table-cards lines-table">
             <colgroup>
@@ -591,7 +719,7 @@ export function DocumentDetailPage() {
         {!readOnly ? (
           <form className="stack" onSubmit={(e) => void addLine(e)}>
             <h2>Add line</h2>
-            <div className="row">
+            <div className="form-grid">
               <label>
                 Description
                 <input
@@ -640,8 +768,6 @@ export function DocumentDetailPage() {
                   disabled={busy}
                 />
               </label>
-            </div>
-            <div className="row">
               <label>
                 Discount type
                 <select

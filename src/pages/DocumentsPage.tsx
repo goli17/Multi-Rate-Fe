@@ -1,4 +1,5 @@
 import { FormEvent, useEffect, useState } from 'react';
+import { Eye, SquarePen } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api, ApiError } from '../api';
 import { DocumentsListSkeleton } from '../components/Skeleton';
@@ -30,20 +31,25 @@ export function DocumentsPage() {
   const [showCreate, setShowCreate] = useState(false);
   const [createForm, setCreateForm] = useState(emptyCreateForm);
 
-  async function load() {
-    setLoading(true);
-    setError('');
-    try {
-      setDocs(await api.listDocuments());
-    } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Failed to load');
-    } finally {
-      setLoading(false);
-    }
-  }
-
   useEffect(() => {
-    void load();
+    let cancelled = false;
+    (async () => {
+      setLoading(true);
+      setError('');
+      try {
+        const data = await api.listDocuments();
+        if (!cancelled) setDocs(data);
+      } catch (err) {
+        if (!cancelled) {
+          setError(err instanceof ApiError ? err.message : 'Failed to load');
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   async function createDoc(e: FormEvent) {
@@ -109,14 +115,17 @@ export function DocumentsPage() {
           {error ? <div className="error">{error}</div> : null}
 
           {showCreate ? (
-            <form className="create-panel stack" onSubmit={(e) => void createDoc(e)}>
+            <form
+              className="create-panel stack"
+              onSubmit={(e) => void createDoc(e)}
+            >
               <div>
                 <h2>New draft</h2>
                 <p className="muted">
                   Create a draft, then add line items. Finalize when ready.
                 </p>
               </div>
-              <div className="row">
+              <div className="form-grid">
                 <label>
                   Title
                   <input
@@ -170,7 +179,9 @@ export function DocumentsPage() {
                     }
                     required
                     disabled={creating}
-                    className={!createForm.currency ? 'select-placeholder' : undefined}
+                    className={
+                      !createForm.currency ? 'select-placeholder' : undefined
+                    }
                   >
                     <option value="" disabled>
                       Select currency
@@ -219,51 +230,69 @@ export function DocumentsPage() {
           ) : null}
 
           {docs.length ? (
-            <div className="table-wrap">
-              <table className="table table-cards docs-table">
-                <colgroup>
-                  <col style={{ width: '28%' }} />
-                  <col style={{ width: '20%' }} />
-                  <col style={{ width: '14%' }} />
-                  <col style={{ width: '10%' }} />
-                  <col style={{ width: '12%' }} />
-                  <col style={{ width: '16%' }} />
-                </colgroup>
-                <thead>
-                  <tr>
-                    <th>Title</th>
-                    <th>Customer</th>
-                    <th>Issue date</th>
-                    <th>Currency</th>
-                    <th>Status</th>
-                    <th className="num">Grand total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {docs.map((doc) => (
-                    <tr key={doc.id}>
-                      <td className="cell-primary" data-label="Title">
-                        <Link to={`/documents/${doc.id}`}>{doc.title}</Link>
-                      </td>
-                      <td data-label="Customer">{doc.customer}</td>
-                      <td data-label="Issue date">{doc.issueDate}</td>
-                      <td data-label="Currency">{doc.currency || 'USD'}</td>
-                      <td data-label="Status">
-                        <span className={`badge ${doc.status}`}>
-                          {doc.status}
-                        </span>
-                      </td>
-                      <td className="num" data-label="Grand total">
-                        {formatMoney(
-                          doc.grandTotal,
-                          doc.currency || DEFAULT_CURRENCY,
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <ul className="docs-list">
+              {docs.map((doc) => {
+                const isDraft = doc.status === 'draft';
+                const actionLabel = isDraft
+                  ? `Edit ${doc.title}`
+                  : `View ${doc.title}`;
+                return (
+                  <li key={doc.id} className="docs-card">
+                    <div className="docs-card-main">
+                      <Link
+                        to={`/documents/${doc.id}`}
+                        className="docs-card-title"
+                      >
+                        {doc.title}
+                      </Link>
+                      <dl className="docs-card-meta">
+                        <div>
+                          <dt>Customer</dt>
+                          <dd>{doc.customer}</dd>
+                        </div>
+                        <div>
+                          <dt>Issue date</dt>
+                          <dd>{doc.issueDate}</dd>
+                        </div>
+                        <div>
+                          <dt>Currency</dt>
+                          <dd>{doc.currency || 'USD'}</dd>
+                        </div>
+                        <div>
+                          <dt>Status</dt>
+                          <dd>
+                            <span className={`badge ${doc.status}`}>
+                              {doc.status}
+                            </span>
+                          </dd>
+                        </div>
+                        <div>
+                          <dt>Grand total</dt>
+                          <dd className="docs-card-total">
+                            {formatMoney(
+                              doc.grandTotal,
+                              doc.currency || DEFAULT_CURRENCY,
+                            )}
+                          </dd>
+                        </div>
+                      </dl>
+                    </div>
+                    <Link
+                      to={`/documents/${doc.id}`}
+                      className="icon-btn docs-card-action"
+                      aria-label={actionLabel}
+                      title={isDraft ? 'Edit draft' : 'View document'}
+                    >
+                      {isDraft ? (
+                        <SquarePen size={16} strokeWidth={2} aria-hidden />
+                      ) : (
+                        <Eye size={16} strokeWidth={2} aria-hidden />
+                      )}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
           ) : null}
         </>
       )}

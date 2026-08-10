@@ -55,12 +55,32 @@ export interface LineInput {
   taxPercent?: number;
 }
 
-export interface SummaryReport {
-  from: string;
-  to: string;
+export interface SummaryReportDocument {
+  id: string;
+  title: string;
+  customer: string;
+  issueDate: string;
+  currency: string;
+  status: string;
+  grandTotal: number;
+  totalTax: number;
+  totalDiscount: number;
+}
+
+export interface CurrencyTotals {
   currency: string;
   documentCount: number;
   sumGrandTotals: number;
   sumTotalTax: number;
   sumTotalDiscount: number;
+}
+
+export interface SummaryReport {
+  from: string;
+  to: string;
+  /** Empty = all currencies (no filter). */
+  currencies: string[];
+  documentCount: number;
+  totalsByCurrency: CurrencyTotals[];
+  documents: SummaryReportDocument[];
 }

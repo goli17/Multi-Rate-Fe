@@ -13,7 +13,7 @@ export default defineConfig({
       command: 'npm run start:dev',
       cwd: '../Multi-Rate-BE',
       url: 'http://localhost:3000/api/v1/health',
-      reuseExistingServer: false,
+      reuseExistingServer: true,
       timeout: 120_000,
       env: {
         ...process.env,
@@ -25,7 +25,7 @@ export default defineConfig({
     {
       command: 'npm run dev -- --port 5174 --strictPort',
       url: 'http://localhost:5174',
-      reuseExistingServer: false,
+      reuseExistingServer: true,
       timeout: 120_000,
     },
   ],

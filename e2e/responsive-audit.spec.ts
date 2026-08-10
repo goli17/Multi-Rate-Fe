@@ -265,10 +265,10 @@ test('responsive UI audit across viewports', async ({ page, browserName }) => {
       'Reports',
       'Date + currency filters visible',
       (await page.locator('input[type="date"]').count()) >= 2 &&
-        (await page.locator('select').count()) >= 1,
+        (await page.locator('.multi-select-trigger').count()) >= 1,
     );
     await page.getByRole('button', { name: /run report/i }).click();
-    await expect(page.locator('.totals')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('.report-sheet')).toBeVisible({ timeout: 10000 });
     await assertNoHScroll(page, vp.name, 'Reports');
 
     // return to documents for next viewport loop cleanup path
