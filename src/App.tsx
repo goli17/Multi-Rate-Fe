@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import { AuthProvider } from './auth';
 import { AppLayout } from './AppLayout';
+import { ColdStartNotice } from './components/ColdStartNotice';
 import { DocumentDetailPage } from './pages/DocumentDetailPage';
 import { DocumentsPage } from './pages/DocumentsPage';
 import { LoginPage } from './pages/LoginPage';
@@ -34,6 +35,7 @@ export default function App() {
   return (
     <AuthProvider>
       <RouterProvider router={router} />
+      <ColdStartNotice />
     </AuthProvider>
   );
 }

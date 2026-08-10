@@ -1,9 +1,59 @@
 const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api/v1';
 
 const TOKEN_KEY = 'mrp_token';
+const SLOW_REQUEST_MS = 5000;
 
 /** Collapse concurrent identical GET requests into one network call (e.g. React StrictMode). */
 const inflightGets = new Map<string, Promise<unknown>>();
+
+type SlowRequestListener = (slow: boolean) => void;
+
+let activeRequests = 0;
+let slowRequestVisible = false;
+let slowRequestTimer: ReturnType<typeof setTimeout> | null = null;
+const slowRequestListeners = new Set<SlowRequestListener>();
+
+function notifySlowRequestListeners() {
+  for (const listener of slowRequestListeners) {
+    listener(slowRequestVisible);
+  }
+}
+
+function beginTrackedRequest() {
+  activeRequests += 1;
+  if (activeRequests === 1 && slowRequestTimer == null) {
+    slowRequestTimer = setTimeout(() => {
+      slowRequestTimer = null;
+      if (activeRequests > 0 && !slowRequestVisible) {
+        slowRequestVisible = true;
+        notifySlowRequestListeners();
+      }
+    }, SLOW_REQUEST_MS);
+  }
+}
+
+function endTrackedRequest() {
+  activeRequests = Math.max(0, activeRequests - 1);
+  if (activeRequests > 0) return;
+
+  if (slowRequestTimer != null) {
+    clearTimeout(slowRequestTimer);
+    slowRequestTimer = null;
+  }
+  if (slowRequestVisible) {
+    slowRequestVisible = false;
+    notifySlowRequestListeners();
+  }
+}
+
+/** Subscribe to slow API activity (any request open longer than 5s). Returns unsubscribe. */
+export function subscribeSlowRequests(listener: SlowRequestListener): () => void {
+  slowRequestListeners.add(listener);
+  listener(slowRequestVisible);
+  return () => {
+    slowRequestListeners.delete(listener);
+  };
+}
 
 export function getToken(): string | null {
   return localStorage.getItem(TOKEN_KEY);
@@ -27,23 +77,28 @@ async function requestOnce<T>(
   path: string,
   options: RequestInit = {},
 ): Promise<T> {
-  const headers = new Headers(options.headers);
-  if (options.body !== undefined && options.body !== null) {
-    headers.set('Content-Type', 'application/json');
-  }
-  const token = getToken();
-  if (token) headers.set('Authorization', `Bearer ${token}`);
+  beginTrackedRequest();
+  try {
+    const headers = new Headers(options.headers);
+    if (options.body !== undefined && options.body !== null) {
+      headers.set('Content-Type', 'application/json');
+    }
+    const token = getToken();
+    if (token) headers.set('Authorization', `Bearer ${token}`);
 
-  const res = await fetch(`${API_URL}${path}`, { ...options, headers });
-  const text = await res.text();
-  const data = text ? JSON.parse(text) : null;
+    const res = await fetch(`${API_URL}${path}`, { ...options, headers });
+    const text = await res.text();
+    const data = text ? JSON.parse(text) : null;
 
-  if (!res.ok) {
-    const raw = data?.message;
-    const message = Array.isArray(raw) ? raw.join(', ') : raw || res.statusText;
-    throw new ApiError(res.status, message);
+    if (!res.ok) {
+      const raw = data?.message;
+      const message = Array.isArray(raw) ? raw.join(', ') : raw || res.statusText;
+      throw new ApiError(res.status, message);
+    }
+    return data as T;
+  } finally {
+    endTrackedRequest();
   }
-  return data as T;
 }
 
 async function request<T>(
